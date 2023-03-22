@@ -53,7 +53,8 @@ class _MainAppState extends State<MainApp> {
                       return GestureDetector(
                         onTap: () => Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (context) => VocabPgae(vocab))),
+                                builder: (context) =>
+                                    VocabPgae(index, vocabList))),
                         child: ListTile(
                           title: Text(vocab.english),
                         ),
