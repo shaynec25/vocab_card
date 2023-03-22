@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vocab_card/controller/data_controller.dart';
 import 'package:vocab_card/view/loading_view.dart';
+import 'package:vocab_card/view/vocab_page.dart';
 
 import 'model/vocab.dart';
 
@@ -48,12 +49,13 @@ class _MainAppState extends State<MainApp> {
                     separatorBuilder: (context, index) => const Divider(),
                     itemCount: vocabList.length,
                     itemBuilder: (context, index) {
+                      final Vocab vocab = vocabList[index];
                       return GestureDetector(
-                        onTap: () {
-                          //TODO: push to vocab page
-                        },
+                        onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => VocabPgae(vocab))),
                         child: ListTile(
-                          title: Text(vocabList[index].english),
+                          title: Text(vocab.english),
                         ),
                       );
                     })));
