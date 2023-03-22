@@ -11,7 +11,7 @@ class Vocab {
   }
 
   Map toJson() => {
-        'index': 0,
+        'index': index,
         'english': english,
         'wordClass': wordClass,
         'description': description,

@@ -11,4 +11,22 @@ class DataController {
       return jsonFeedback.map((json) => Vocab.fromJson(json)).toList();
     });
   }
+
+  Future<bool> createNew(Vocab vocab) async {
+    bool isSuccess = false;
+    try {
+      await http.post(url, body: vocab.toJson()).then((response) async {
+        if (response.statusCode == 302) {
+          var url = response.headers['location'];
+          await http.get(Uri.parse(url!)).then((response) {
+            isSuccess =
+                jsonDecode(response.body)['status'].toString() == 'SUCCESS';
+          });
+        } else {}
+      });
+    } catch (e) {
+      print(e);
+    }
+    return isSuccess;
+  }
 }
