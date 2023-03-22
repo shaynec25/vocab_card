@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:vocab_card/controller/data_controller.dart';
+import 'package:vocab_card/view/create_dialog.dart';
+import 'package:vocab_card/view/loading_popup.dart';
 import 'package:vocab_card/view/loading_view.dart';
 import 'package:vocab_card/view/vocab_page.dart';
 
 import 'model/vocab.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        theme: ThemeData(primarySwatch: Colors.blueGrey), home: MainApp());
+  }
 }
 
 class MainApp extends StatefulWidget {
@@ -18,47 +30,64 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   List<Vocab> vocabList = [];
+  DataController dataController = DataController();
   @override
   void initState() {
     // to load data
-    DataController().getVocabList().then((value) {
+    dataController.getVocabList().then((value) {
       setState(() {
         vocabList = value;
       });
     });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: ThemeData(primarySwatch: Colors.blueGrey),
-        home: Scaffold(
-            appBar: AppBar(
-              actions: [
-                IconButton(
-                    onPressed: () {
-                      // TODO: create a new data
-                    },
-                    icon: const Icon(Icons.add))
-              ],
-            ),
-            body: vocabList.isEmpty
-                ? const LoadingView()
-                : ListView.separated(
-                    separatorBuilder: (context, index) => const Divider(),
-                    itemCount: vocabList.length,
-                    itemBuilder: (context, index) {
-                      final Vocab vocab = vocabList[index];
-                      return GestureDetector(
-                        onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    VocabPgae(index, vocabList))),
-                        child: ListTile(
-                          title: Text(vocab.english),
-                        ),
-                      );
-                    })));
+    return Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  showDialog<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const CreateNewDialog();
+                      }).then((value) {
+                    showDialog<void>(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (BuildContext context) {
+                          dataController.getVocabList().then((value) {
+                            Navigator.of(context).pop();
+                            setState(() {
+                              vocabList = value;
+                            });
+                          });
+                          return LoadingPopup(
+                            msg: 'reloading...',
+                          );
+                        });
+                  });
+                },
+                icon: const Icon(Icons.add))
+          ],
+        ),
+        body: vocabList.isEmpty
+            ? const LoadingView()
+            : ListView.separated(
+                separatorBuilder: (context, index) => const Divider(),
+                itemCount: vocabList.length,
+                itemBuilder: (context, index) {
+                  final Vocab vocab = vocabList[index];
+                  return GestureDetector(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => VocabPgae(index, vocabList))),
+                    child: ListTile(
+                      title: Text(vocab.english),
+                    ),
+                  );
+                }));
   }
 }

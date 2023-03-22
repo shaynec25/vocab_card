@@ -18,7 +18,6 @@ class VocabPgae extends StatefulWidget {
 class _VocabPgaeState extends State<VocabPgae> {
   @override
   Widget build(BuildContext context) {
-    // final Vocab vocab = widget.vocab;
     return Scaffold(
         appBar: AppBar(),
         body: Swiper(
@@ -28,7 +27,7 @@ class _VocabPgaeState extends State<VocabPgae> {
           itemBuilder: (context, index) {
             final vocab = widget.vocabList[index];
             return Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -44,10 +43,10 @@ class _VocabPgaeState extends State<VocabPgae> {
                       type: TitleType.description, content: vocab.description),
                   const Divider(),
                   ItemWidget(type: TitleType.example, content: vocab.example),
-                  Spacer(),
+                  const Spacer(),
                   Text(vocab.russian,
                       style: Theme.of(context).textTheme.headline5),
-                  SizedBox(
+                  const SizedBox(
                     height: 50,
                   )
                 ],
