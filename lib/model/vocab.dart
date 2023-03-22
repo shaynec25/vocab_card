@@ -1,12 +1,12 @@
 class Vocab {
-  int index;
+  String index;
   String english, wordClass, description, chinese, example, russian;
 
   Vocab(this.index, this.english, this.wordClass, this.description,
       this.chinese, this.example, this.russian);
 
   factory Vocab.fromJson(dynamic json) {
-    return Vocab(json['index'], json['english'], json['wordClass'],
+    return Vocab(json['index'].toString(), json['english'], json['wordClass'],
         json['description'], json['chinese'], json['example'], json['russian']);
   }
 
