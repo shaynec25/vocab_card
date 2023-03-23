@@ -25,46 +25,49 @@ class _CreateNewDialogState extends State<CreateNewDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Create a New Vocabulary'),
-      content: Container(
+      content: SizedBox(
         height: 300,
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          TextField(
-            controller: englishCtl,
-            decoration: const InputDecoration(hintText: 'English'),
-          ),
-          DropdownButton(
-            value: dropdownValue,
-            items: list.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            onChanged: (String? value) {
-              print(value);
-              // This is called when the user selects an item.
-              setState(() {
-                dropdownValue = value!;
-              });
-            },
-          ),
-          TextField(
-            controller: desCtl,
-            decoration: const InputDecoration(hintText: 'Description'),
-          ),
-          TextField(
-            controller: chCtl,
-            decoration: const InputDecoration(hintText: 'Chinese'),
-          ),
-          TextField(
-            controller: exampleCtl,
-            decoration: const InputDecoration(hintText: 'Example'),
-          ),
-          TextField(
-            controller: ruCtl,
-            decoration: const InputDecoration(hintText: 'Russian'),
-          ),
-        ]),
+        child: SingleChildScrollView(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            TextField(
+              controller: englishCtl,
+              decoration: const InputDecoration(hintText: 'English'),
+            ),
+            DropdownButton(
+              value: dropdownValue,
+              items: list.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (String? value) {
+                print(value);
+                // This is called when the user selects an item.
+                setState(() {
+                  dropdownValue = value!;
+                });
+              },
+            ),
+            TextField(
+              controller: desCtl,
+              decoration: const InputDecoration(hintText: 'Description'),
+            ),
+            TextField(
+              controller: chCtl,
+              decoration: const InputDecoration(hintText: 'Chinese'),
+            ),
+            TextField(
+              controller: exampleCtl,
+              decoration: const InputDecoration(hintText: 'Example'),
+            ),
+            TextField(
+              controller: ruCtl,
+              decoration: const InputDecoration(hintText: 'Russian'),
+            ),
+          ]),
+        ),
       ),
       actions: <Widget>[
         TextButton(
