@@ -90,9 +90,8 @@ class _CreateNewDialogState extends State<CreateNewDialog> {
                       .createNew(Vocab('0', englishCtl.text, dropdownValue,
                           desCtl.text, chCtl.text, exampleCtl.text, ruCtl.text))
                       .then((value) {
-                    if (value == true) {
-                      Navigator.of(context).pop();
-                    }
+                    //TODO: upload failed handle
+                    Navigator.of(context).pop();
                   });
                   return LoadingPopup(
                     msg: 'uploading...',

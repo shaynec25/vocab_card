@@ -17,14 +17,24 @@ class DataController {
     try {
       await http.post(url, body: vocab.toJson()).then((response) async {
         if (response.statusCode == 302) {
+          // for app it return 302 first
           var url = response.headers['location'];
           await http.get(Uri.parse(url!)).then((response) {
+            print(response.body);
             isSuccess =
                 jsonDecode(response.body)['status'].toString() == 'SUCCESS';
           });
-        } else {}
+        } else if (response.statusCode == 200) {
+          // for web, it return 200
+          isSuccess =
+              jsonDecode(response.body)['status'].toString() == 'SUCCESS';
+        } else {
+          //TODO: error handle
+          print(response.statusCode);
+        }
       });
     } catch (e) {
+      //TODO: error handle
       print(e);
     }
     return isSuccess;
