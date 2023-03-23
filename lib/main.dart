@@ -17,7 +17,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(primarySwatch: Colors.blueGrey), home: MainApp());
+        title: 'My Vocabulary Card',
+        theme: ThemeData(primarySwatch: Colors.blueGrey),
+        home: const MainApp());
   }
 }
 
@@ -47,6 +49,7 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          title: const Text('My Vocabulary Card'),
           actions: [
             IconButton(
                 onPressed: () {
