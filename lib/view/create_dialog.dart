@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:vocab_card/model/word_class.dart';
 import 'package:vocab_card/view/loading_popup.dart';
 
 import '../controller/data_controller.dart';
-import '../model/vocab.dart';
+import '../model/vocabulary.dart';
 
 class CreateNewDialog extends StatefulWidget {
   const CreateNewDialog({super.key});
@@ -86,20 +87,29 @@ class _CreateNewDialogState extends State<CreateNewDialog> {
           child: const Text('Create'),
           onPressed: () async {
             showDialog<void>(
-                context: context,
-                barrierDismissible: false,
-                builder: (BuildContext context) {
-                  DataController()
-                      .createNew(Vocab('0', englishCtl.text, dropdownValue,
-                          desCtl.text, chCtl.text, exampleCtl.text, ruCtl.text))
-                      .then((value) {
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                DataController()
+                    .createNew(Vocabulary(
+                        '0',
+                        englishCtl.text,
+                        toWordClass(dropdownValue),
+                        desCtl.text,
+                        chCtl.text,
+                        exampleCtl.text,
+                        ruCtl.text))
+                    .then(
+                  (value) {
                     //TODO: upload failed handle
                     Navigator.of(context).pop();
-                  });
-                  return LoadingPopup(
-                    msg: 'uploading...',
-                  );
-                }).then((value) => Navigator.of(context).pop());
+                  },
+                );
+                return const LoadingPopup(
+                  msg: 'uploading...',
+                );
+              },
+            ).then((value) => Navigator.of(context).pop());
           },
         ),
       ],

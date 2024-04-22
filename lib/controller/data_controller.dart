@@ -1,19 +1,19 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:vocab_card/model/vocab.dart';
+import 'package:vocab_card/model/vocabulary.dart';
 
 class DataController {
   static Uri url = Uri.https('script.google.com',
       'macros/s/AKfycbzff0DhYWVeMCeaAE1rp4vHY56xlVKBKBxVbZX7pWVhY7CUqTgZRfHtyl83ddYc4tWjFA/exec');
 
-  Future<List<Vocab>> getVocabList() async {
+  Future<List<Vocabulary>> getVocabList() async {
     return await http.get(url).then((response) {
       var jsonFeedback = jsonDecode(response.body) as List;
-      return jsonFeedback.map((json) => Vocab.fromJson(json)).toList();
+      return jsonFeedback.map((json) => Vocabulary.fromJson(json)).toList();
     });
   }
 
-  Future<bool> createNew(Vocab vocab) async {
+  Future<bool> createNew(Vocabulary vocab) async {
     bool isSuccess = false;
     try {
       await http.post(url, body: vocab.toJson()).then((response) async {

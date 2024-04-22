@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:vocab_card/model/word_class.dart';
 
 class WordClassTag extends StatelessWidget {
-  WordClassTag({super.key, required this.type});
-  String type;
+  const WordClassTag({super.key, required this.type});
+  final WordClass type;
   @override
   Widget build(BuildContext context) {
     late Color color;
     switch (type) {
-      case 'noun':
+      case WordClass.noun:
         color = Colors.amber[700]!;
         break;
-      case 'adj':
+      case WordClass.adj:
         color = Colors.lightGreen[700]!;
         break;
-      case 'adv':
+      case WordClass.adv:
         color = Colors.blue[700]!;
         break;
-      case 'verb':
+      case WordClass.verb:
         color = Colors.red[700]!;
         break;
       default:
@@ -27,7 +28,7 @@ class WordClassTag extends StatelessWidget {
           BoxDecoration(borderRadius: BorderRadius.circular(10), color: color),
       padding: const EdgeInsets.all(8),
       child: Text(
-        type,
+        wordClassToString(type),
         style:
             const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),

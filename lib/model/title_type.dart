@@ -1,1 +1,8 @@
-enum TitleType { english, wordClass, description, chinese, example, russian }
+enum TitleType {
+  english,
+  wordClass,
+  description,
+  chinese,
+  example,
+  russian,
+}
