@@ -7,6 +7,54 @@ A Demo application shows vocabularies on **Flutter** application from Google She
 
 
 ## Code on Apps Scripts
-<img width="803" alt="image" src="https://user-images.githubusercontent.com/80501218/227067716-dc773e54-02a9-460c-a62f-3929184e5018.png">
+    function doGet() {
+      var sheet = SpreadsheetApp.getActiveSheet();
+      var data = sheet.getDataRange().getValues();
+      if (!data) {
+        Logger.log('No data found.');
+      } else {
+        var dataList = [];
+        for (var i = 1; i < data.length; i++) {
+          var row = data[i];
+          var vocab = {};
+          vocab['index'] = row[0];
+          vocab['english'] = row[1];
+          vocab['wordClass'] = row[2];
+          vocab['description'] = row[3];
+          vocab['chinese'] = row[4];
+          vocab['example'] = row[5];
+          vocab['russian'] = row[6];
+          dataList.push(vocab);
+        }
+      }
+      var myJSON = JSON.stringify(dataList);
+      Logger.log(myJSON);
+      return ContentService.createTextOutput(myJSON).setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    function doPost(request) {
+      var result = {"status": "SUCCESS"};
+      var sheet = SpreadsheetApp.getActiveSheet();
+      var data = sheet.getDataRange().getValues();
+      if (!data) {
+        Logger.log('No data found. ');
+      } else {
+        Logger.log('last index');
+        var lastIndex = data.length - 1;
+        var newRowIndex = data[lastIndex][0] + 1;
+        Logger.log(data[lastIndex][0]);
+      }
+      try {
+        var english = request.parameter.english;
+        var wordClass = request.parameter.wordClass;
+        var description = request.parameter.description;
+        var chinese = request.parameter.chinese;
+        var example = request.parameter.example;
+        var russian = request.parameter.russian;
+        var rowData = sheet.appendRow([newRowIndex, english, wordClass, description, chinese, example, russian]);
+      } catch(e) {
+        result = {"status": "FAILED", "message": e};
+      }
+      return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
+    }
 
-<img width="943" alt="image" src="https://user-images.githubusercontent.com/80501218/227067787-8964e5de-312d-4ae4-b386-68c058205edd.png">
